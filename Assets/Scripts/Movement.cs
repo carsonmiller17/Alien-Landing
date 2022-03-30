@@ -5,12 +5,15 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     Rigidbody rb;
+    AudioSource audioSource;
     [SerializeField] float thrustSpeed = 100f;
     [SerializeField] float rotateSpeed = 15f;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
+        //audioSource.Stop();
     }
 
     // Update is called once per frame
@@ -25,8 +28,17 @@ public class Movement : MonoBehaviour
         float thrustMultiplier = Time.deltaTime * thrustSpeed;
         if (Input.GetKey(KeyCode.Space))
         {
-            Debug.Log("Pressed SPACE - ENGAGE THRUSTERS");
+            //Debug.Log("Pressed SPACE - ENGAGE THRUSTERS");
             rb.AddRelativeForce(Vector3.up * thrustMultiplier);
+            
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            audioSource.Stop();
         }
         
     }
